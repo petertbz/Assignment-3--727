@@ -112,7 +112,7 @@ First, scrape just the text without any of the information in the margins or hea
 ```{r tidy=TRUE}
 url = read_html("https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago")
 nds = html_nodes(url, xpath = '//p')
-description = html_text(nds[[2]], trim = TRUE)
+description = html_text2(nds[[2]])
 
 links = html_nodes(nds[[2]], "a")
 link_texts = html_text(links)
@@ -125,10 +125,30 @@ linklist = cbind(link_texts, linklist)
 
 description = description %>% paste(collapse = ' ')
 
-description
+kable(data.frame(description = description))
 ```
 
 Using a similar loop as in the last section, grab the descriptions of the various communities areas. Make a tibble with two columns: the name of the location and the text describing the location.
+
+```{r}
+descriptions = data.frame(location = "Grand_Boulevard", description = description)
+
+places_east2 = gsub(",_Chicago", "", places_east) %>% 
+  as_tibble() %>% 
+  rename(location = value)
+
+for(i in 1:length(places_east)) {
+  url = read_html(paste("https://en.wikipedia.org/wiki/", places_east[i], sep = ""))
+  nds = html_elements(url, xpath = '//p')
+  description = html_text2(nds[[2]]) %>%
+    paste(collapse = ' ')
+  descriptionss = data.frame(location = places_east2[i,1], description = description)
+
+descriptions = rbind(descriptions, descriptionss)  
+}
+
+kable(descriptions)
+```
 
 Let's clean the data using `tidytext`. If you have trouble with this section, see the example shown in <https://www.tidytextmining.com/tidytext.html>
 
@@ -138,4 +158,22 @@ library(tidytext)
 
 Create tokens using `unnest_tokens`. Make sure the data is in one-token-per-row format. Remove any stop words within the data. What are the most common words used overall?
 
+```{r}
+# construct tokens
+tidyt = descriptions %>% unnest_tokens(word, description)
+
+# remove any stop words
+data("stop_words")
+tidyt = tidyt %>%
+  anti_join(stop_words)
+
+tidymost = tidyt %>% count(word, sort = TRUE)
+kable(head(tidymost))
+```
+
 Plot the most common words within each location. What are some of the similarities between the locations? What are some of the differences?
+
+```{r}
+tidyt %>% group_by(location) %>% 
+  count(word) -> a
+```
