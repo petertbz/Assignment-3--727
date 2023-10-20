@@ -96,26 +96,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>You may work in pairs or individually for this assignment. Make sure you join a group in Canvas if you are working in pairs. Turn in this assignment as an HTML or PDF file to ELMS. Make sure to include the R Markdown or Quarto file that was used to generate it. Include the GitHub link for the repository containing these files.</p>
-<div class="cell">
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-1_90ffa920d39010267ba693b8e9684875">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.3     ✔ readr     2.1.4
-✔ forcats   1.0.0     ✔ stringr   1.5.0
-✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.0
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter()         masks stats::filter()
-✖ readr::guess_encoding() masks rvest::guess_encoding()
-✖ dplyr::lag()            masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(robotstxt)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(robotstxt)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="web-scraping" class="level2">
 <h2 class="anchored" data-anchor-id="web-scraping">Web Scraping</h2>
@@ -123,21 +110,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago" class="uri">https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago</a></p>
 <p>The ultimate goal is to gather the table “Historical population” and convert it to a <code>data.frame</code>.</p>
 <p>As a first step, read in the html page as an R object. Extract the tables from this object (using the <code>rvest</code> package) and save the result as a new object. Follow the instructions if there is an error. Use <code>str()</code> on this new object -- it should be a list. Try to find the position of the “Historical population” in this list since we need it in the next step.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># determine the paths and url</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">paths_allowed</span>(<span class="st">"https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
- en.wikipedia.org                      </code></pre>
-</div>
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-2_6ece57cb21a957d6e91c1d11e99d08d7">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># determine the paths and url</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">paths_allowed</span>(<span class="st">"https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">=</span> <span class="fu">read_html</span>(<span class="st">"https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># extract tables from the website</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>nds <span class="ot">=</span> <span class="fu">html_elements</span>(url, <span class="at">xpath =</span> <span class="st">'//table'</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(nds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">=</span> <span class="fu">read_html</span>(<span class="st">"https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># extract tables from the website</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>nds <span class="ot">=</span> <span class="fu">html_elements</span>(url, <span class="at">xpath =</span> <span class="st">'//table'</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(nds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 7
  $ :List of 2
@@ -172,11 +155,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Extract the “Historical population” table from the list and save it as another object. You can use subsetting via <code>[[…]]</code> to extract pieces from a list. Print the result.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract "Historical population" table from the list</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>hp <span class="ot">=</span> nds[[<span class="dv">2</span>]]</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>hpset <span class="ot">=</span> <span class="fu">html_table</span>(hp)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(hpset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-3_77787cabbf7be83562fb953ca7c66cdb">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract "Historical population" table from the list</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>hp <span class="ot">=</span> nds[[<span class="dv">2</span>]]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>hpset <span class="ot">=</span> <span class="fu">html_table</span>(hp)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(hpset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <colgroup>
@@ -265,10 +248,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>You will see that the table needs some additional formatting. We only want rows and columns with actual values (I called the table object <code>pop</code>).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove unwanted rows and columns</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">=</span> hpset[<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, <span class="sc">-</span><span class="dv">3</span>]</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-4_7408f6233ad2d22e270c490486fd6c45">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove unwanted rows and columns</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">=</span> hpset[<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, <span class="sc">-</span><span class="dv">3</span>]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -332,74 +315,236 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="expanding-to-more-pages" class="level2">
 <h2 class="anchored" data-anchor-id="expanding-to-more-pages">Expanding to More Pages</h2>
 <p>That’s it for this page. However, we may want to repeat this process for other community areas. The Wikipedia page https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago has a section on “Places adjacent to Grand Boulevard, Chicago” at the bottom. Can you find the corresponding table in the list of tables that you created earlier? Extract this table as a new object.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the table</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>adj <span class="ot">=</span> <span class="fu">html_table</span>(nds[[<span class="dv">3</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-5_0a869f238bd198338eb21c841f9a7530">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the table</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>adj <span class="ot">=</span> <span class="fu">html_table</span>(nds[[<span class="dv">3</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then, grab the community areas east of Grand Boulevard and save them as a character vector. Print the result.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>adjeast <span class="ot">=</span> <span class="fu">as.vector</span>(adj[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>), <span class="dv">3</span>])</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(adjeast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-6_63c5dd8950625dee176517741df218a8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>adjeast <span class="ot">=</span> <span class="fu">as.vector</span>(adj[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>), <span class="dv">3</span>])</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(adjeast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
 [1] "Oakland, Chicago"   "Kenwood, Chicago"   "Hyde Park, Chicago"</code></pre>
 </div>
 </div>
 <p>We want to use this list to create a loop that extracts the population tables from the Wikipedia pages of these places. To make this work and build valid urls, we need to replace empty spaces in the character vector with underscores. This can be done with <code>gsub()</code>, or by hand. The resulting vector should look like this: “Oakland,_Chicago” “Kenwood,_Chicago” “Hyde_Park,_Chicago”</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>places_east <span class="ot">=</span> <span class="fu">gsub</span>(<span class="st">' '</span>, <span class="st">'_'</span>, adjeast[[<span class="dv">1</span>]])</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>places_east</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-7_f2234bcb8273e5d7e9ed71fa36c2306e">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>places_east <span class="ot">=</span> <span class="fu">gsub</span>(<span class="st">' '</span>, <span class="st">'_'</span>, adjeast[[<span class="dv">1</span>]])</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>places_east</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Oakland,_Chicago"   "Kenwood,_Chicago"   "Hyde_Park,_Chicago"</code></pre>
 </div>
 </div>
 <p>To prepare the loop, we also want to copy our <code>pop</code> table and rename it as <code>pops</code>. In the loop, we append this table by adding columns from the other community areas.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pops <span class="ot">=</span> pop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-8_19cbd95e5ad8669a9b982dade19967d2">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pops <span class="ot">=</span> pop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Build a small loop to test whether you can build valid urls using the vector of places and pasting each element of it after <code>https://en.wikipedia.org/wiki/</code> in a for loop. Calling <code>url</code> shows the last url of this loop, which should be <code>https://en.wikipedia.org/wiki/Hyde_Park,_Chicago</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(places_east)) {</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"https://en.wikipedia.org/wiki/"</span>, places_east[i], <span class="at">sep =</span> <span class="st">""</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>url</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-9_2f8db7bdbc2cbdb96e143bddcc0a1109">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(places_east)) {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"https://en.wikipedia.org/wiki/"</span>, places_east[i], <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>url</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "https://en.wikipedia.org/wiki/Hyde_Park,_Chicago"</code></pre>
 </div>
 </div>
 <p>Finally, extend the loop and add the code that is needed to grab the population tables from each page. Add columns to the original table <code>pops</code> using <code>cbind()</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(places_east)) {</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">=</span> <span class="fu">read_html</span>(<span class="fu">paste</span>(<span class="st">"https://en.wikipedia.org/wiki/"</span>, places_east[i], <span class="at">sep =</span> <span class="st">""</span>))</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  nds <span class="ot">=</span> <span class="fu">html_elements</span>(url, <span class="at">xpath =</span> <span class="st">'//table'</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  hp <span class="ot">=</span> nds[[<span class="dv">2</span>]]</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  hpset <span class="ot">=</span> <span class="fu">html_table</span>(hp)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  pops <span class="ot">=</span> hpset[<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, <span class="sc">-</span><span class="dv">3</span>] <span class="sc">%&gt;%</span> <span class="fu">cbind</span>(pops, .)</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-10_f61c92a5119a75bd3453076e1c30554d">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(places_east)) {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">=</span> <span class="fu">read_html</span>(<span class="fu">paste</span>(<span class="st">"https://en.wikipedia.org/wiki/"</span>, places_east[i], <span class="at">sep =</span> <span class="st">""</span>))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  nds <span class="ot">=</span> <span class="fu">html_elements</span>(url, <span class="at">xpath =</span> <span class="st">'//table'</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  hp <span class="ot">=</span> nds[[<span class="dv">2</span>]]</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  hpset <span class="ot">=</span> <span class="fu">html_table</span>(hp)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  pops <span class="ot">=</span> hpset[<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, <span class="sc">-</span><span class="dv">3</span>] <span class="sc">%&gt;%</span> <span class="fu">cbind</span>(pops, .)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pops)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Census</th>
+<th style="text-align: left;">Pop.</th>
+<th style="text-align: left;">%±</th>
+<th style="text-align: left;">Census</th>
+<th style="text-align: left;">Pop.</th>
+<th style="text-align: left;">%±</th>
+<th style="text-align: left;">Census</th>
+<th style="text-align: left;">Pop.</th>
+<th style="text-align: left;">%±</th>
+<th style="text-align: left;">Census</th>
+<th style="text-align: left;">Pop.</th>
+<th style="text-align: left;">%±</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1940</td>
+<td style="text-align: left;">103,256</td>
+<td style="text-align: left;">18.7%</td>
+<td style="text-align: left;">1940</td>
+<td style="text-align: left;">14,500</td>
+<td style="text-align: left;">−3.1%</td>
+<td style="text-align: left;">1940</td>
+<td style="text-align: left;">29,611</td>
+<td style="text-align: left;">9.9%</td>
+<td style="text-align: left;">1940</td>
+<td style="text-align: left;">50,550</td>
+<td style="text-align: left;">5.3%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1950</td>
+<td style="text-align: left;">114,557</td>
+<td style="text-align: left;">10.9%</td>
+<td style="text-align: left;">1950</td>
+<td style="text-align: left;">24,464</td>
+<td style="text-align: left;">68.7%</td>
+<td style="text-align: left;">1950</td>
+<td style="text-align: left;">35,705</td>
+<td style="text-align: left;">20.6%</td>
+<td style="text-align: left;">1950</td>
+<td style="text-align: left;">55,206</td>
+<td style="text-align: left;">9.2%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1960</td>
+<td style="text-align: left;">80,036</td>
+<td style="text-align: left;">−30.1%</td>
+<td style="text-align: left;">1960</td>
+<td style="text-align: left;">24,378</td>
+<td style="text-align: left;">−0.4%</td>
+<td style="text-align: left;">1960</td>
+<td style="text-align: left;">41,533</td>
+<td style="text-align: left;">16.3%</td>
+<td style="text-align: left;">1960</td>
+<td style="text-align: left;">45,577</td>
+<td style="text-align: left;">−17.4%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1970</td>
+<td style="text-align: left;">80,166</td>
+<td style="text-align: left;">0.2%</td>
+<td style="text-align: left;">1970</td>
+<td style="text-align: left;">18,291</td>
+<td style="text-align: left;">−25.0%</td>
+<td style="text-align: left;">1970</td>
+<td style="text-align: left;">26,890</td>
+<td style="text-align: left;">−35.3%</td>
+<td style="text-align: left;">1970</td>
+<td style="text-align: left;">33,531</td>
+<td style="text-align: left;">−26.4%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1980</td>
+<td style="text-align: left;">53,741</td>
+<td style="text-align: left;">−33.0%</td>
+<td style="text-align: left;">1980</td>
+<td style="text-align: left;">16,748</td>
+<td style="text-align: left;">−8.4%</td>
+<td style="text-align: left;">1980</td>
+<td style="text-align: left;">21,974</td>
+<td style="text-align: left;">−18.3%</td>
+<td style="text-align: left;">1980</td>
+<td style="text-align: left;">31,198</td>
+<td style="text-align: left;">−7.0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1990</td>
+<td style="text-align: left;">35,897</td>
+<td style="text-align: left;">−33.2%</td>
+<td style="text-align: left;">1990</td>
+<td style="text-align: left;">8,197</td>
+<td style="text-align: left;">−51.1%</td>
+<td style="text-align: left;">1990</td>
+<td style="text-align: left;">18,178</td>
+<td style="text-align: left;">−17.3%</td>
+<td style="text-align: left;">1990</td>
+<td style="text-align: left;">28,630</td>
+<td style="text-align: left;">−8.2%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2000</td>
+<td style="text-align: left;">28,006</td>
+<td style="text-align: left;">−22.0%</td>
+<td style="text-align: left;">2000</td>
+<td style="text-align: left;">6,110</td>
+<td style="text-align: left;">−25.5%</td>
+<td style="text-align: left;">2000</td>
+<td style="text-align: left;">18,363</td>
+<td style="text-align: left;">1.0%</td>
+<td style="text-align: left;">2000</td>
+<td style="text-align: left;">29,920</td>
+<td style="text-align: left;">4.5%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2010</td>
+<td style="text-align: left;">21,929</td>
+<td style="text-align: left;">−21.7%</td>
+<td style="text-align: left;">2010</td>
+<td style="text-align: left;">5,918</td>
+<td style="text-align: left;">−3.1%</td>
+<td style="text-align: left;">2010</td>
+<td style="text-align: left;">17,841</td>
+<td style="text-align: left;">−2.8%</td>
+<td style="text-align: left;">2010</td>
+<td style="text-align: left;">25,681</td>
+<td style="text-align: left;">−14.2%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2020</td>
+<td style="text-align: left;">24,589</td>
+<td style="text-align: left;">12.1%</td>
+<td style="text-align: left;">2020</td>
+<td style="text-align: left;">6,799</td>
+<td style="text-align: left;">14.9%</td>
+<td style="text-align: left;">2020</td>
+<td style="text-align: left;">19,116</td>
+<td style="text-align: left;">7.1%</td>
+<td style="text-align: left;">2020</td>
+<td style="text-align: left;">29,456</td>
+<td style="text-align: left;">14.7%</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </section>
 <section id="scraping-and-analyzing-text-data" class="level2">
 <h2 class="anchored" data-anchor-id="scraping-and-analyzing-text-data">Scraping and Analyzing Text Data</h2>
 <p>Suppose we wanted to take the actual text from the Wikipedia pages instead of just the information in the table. Our goal in this section is to extract the text from the body of the pages, then do some basic text cleaning and analysis.</p>
 <p>First, scrape just the text without any of the information in the margins or headers. For example, for “Grand Boulevard”, the text should start with, “<strong>Grand Boulevard</strong> on the <a href="https://en.wikipedia.org/wiki/South_Side,_Chicago" title="South Side, Chicago">South Side</a> of <a href="https://en.wikipedia.org/wiki/Chicago" title="Chicago">Chicago</a>, <a href="https://en.wikipedia.org/wiki/Illinois" title="Illinois">Illinois</a>, is one of the …”. Make sure all of the text is in one block by using something like the code below (I called my object <code>description</code>).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">=</span> <span class="fu">read_html</span>(<span class="st">"https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago"</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>nds <span class="ot">=</span> <span class="fu">html_nodes</span>(url, <span class="at">xpath =</span> <span class="st">"//p"</span>)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>description <span class="ot">=</span> <span class="fu">html_text2</span>(nds[[<span class="dv">2</span>]])</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>links <span class="ot">=</span> <span class="fu">html_nodes</span>(nds[[<span class="dv">2</span>]], <span class="st">"a"</span>)</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>link_texts <span class="ot">=</span> <span class="fu">html_text</span>(links)</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>link_urls <span class="ot">=</span> <span class="fu">html_attr</span>(links, <span class="st">"href"</span>)</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>linklist <span class="ot">=</span> <span class="fu">paste</span>(<span class="st">"https://en.wikipedia.org"</span>, link_urls, <span class="at">sep =</span> <span class="st">""</span>)</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>link_texts <span class="ot">=</span> <span class="fu">as_tibble</span>(link_texts)</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>linklist <span class="ot">=</span> <span class="fu">as_tibble</span>(linklist)</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>linklist <span class="ot">=</span> <span class="fu">cbind</span>(link_texts, linklist)</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>description <span class="ot">=</span> description <span class="sc">%&gt;%</span></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="at">collapse =</span> <span class="st">" "</span>)</span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">description =</span> description))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-11_ac56a8db4db6dfb44a340af12d6226d8">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">=</span> <span class="fu">read_html</span>(<span class="st">"https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>nds <span class="ot">=</span> <span class="fu">html_nodes</span>(url, <span class="at">xpath =</span> <span class="st">"//p"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>description <span class="ot">=</span> <span class="fu">html_text2</span>(nds)[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># links = html_nodes(nds[[2]], 'a') link_texts = html_text(links) link_urls =</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># html_attr(links, 'href')</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># linklist = paste('https://en.wikipedia.org', link_urls, sep = '') link_texts</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># = as_tibble(link_texts) linklist = as_tibble(linklist) linklist =</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co"># cbind(link_texts, linklist)</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>description <span class="ot">=</span> description <span class="sc">%&gt;%</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="at">collapse =</span> <span class="st">" "</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">description =</span> description))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <colgroup>
@@ -412,36 +557,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Grand Boulevard on the South Side of Chicago, Illinois, is one of the city’s Community Areas. The boulevard from which it takes its name is now Martin Luther King Jr.&nbsp;Drive. The area is bounded by 39th to the north, 51st Street to the south, Cottage Grove Avenue to the east, and the Chicago, Rock Island &amp; Pacific Railroad tracks to the west.</td>
+<td style="text-align: left;">Grand Boulevard on the South Side of Chicago, Illinois, is one of the city’s Community Areas. The boulevard from which it takes its name is now Martin Luther King Jr.&nbsp;Drive. The area is bounded by 39th to the north, 51st Street to the south, Cottage Grove Avenue to the east, and the Chicago, Rock Island &amp; Pacific Railroad tracks to the west. This is one of the two community areas that encompass the Bronzeville neighborhood, with the other being Douglas. Grand Boulevard also includes the Washington Park Court District neighborhood that was declared a Chicago Landmark on October 2, 1991.[2] The Harold Washington Cultural Center is one of its newer and more famous buildings. It arose on the site that from the 1920s through the 1970s housed a famous center of African American cultural life, the Regal Theater. Among the other notable properties in this neighborhood are the Daniel Hale Williams House, the Robert S. Abbott House, and the Oscar Stanton De Priest House. According to a 2018 US Census American Community Survey, there were 22,784 people and 10,383 households in Grand Boulevard.[1] The racial makeup of the area was 92.56% African American, 2.70% White, 0.70% Asian, and 2.26% from other races. Hispanic or Latino residents of any race were 1.77% of the population.[1] In the area, the population was spread out, with 27.3% under the age of 19, 19.4% from 20 to 34, 22.6% from 35 to 49, 16.4% from 50 to 64, and 14.3% who were 65 years of age or older. The median age was 36.9 years.[1] Grand Boulevard is part of City of Chicago School District #299 and City Colleges of Chicago District #508. The nearest City Colleges campus was Kennedy–King College in Englewood. A high school diploma had been earned by 85.5% of Grand Boulevard residents and a bachelor’s degree or greater had been earned by 31.31% of residents compared to citywide figures of 82.3% and 35.6% respectively.[1] The Chicago Transit Authority operates the Chicago “L” system in the Grand Boulevard community area. The Green Line provides rapid transit at four stations: Indiana, 43rd Street, 47th Street and 51st Street stations. The Grand Boulevard community area has supported the Democratic Party in the past two presidential elections by overwhelming margins. In the 2016 presidential election, Grand Boulevard cast 10,081 votes for Hillary Clinton and cast 171 votes for Donald Trump.[4] In the 2012 presidential election, Grand Boulevard cast 10,646 votes for Barack Obama and cast 81 votes for Mitt Romney.[5]</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <p>Using a similar loop as in the last section, grab the descriptions of the various communities areas. Make a tibble with two columns: the name of the location and the text describing the location.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>descriptions <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">location =</span> <span class="st">"Grand_Boulevard"</span>, <span class="at">description =</span> description)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>places_east2 <span class="ot">=</span> <span class="fu">gsub</span>(<span class="st">",_Chicago"</span>, <span class="st">""</span>, places_east) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">location =</span> value)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(places_east)) {</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">=</span> <span class="fu">read_html</span>(<span class="fu">paste</span>(<span class="st">"https://en.wikipedia.org/wiki/"</span>, places_east[i], <span class="at">sep =</span> <span class="st">""</span>))</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  nds <span class="ot">=</span> <span class="fu">html_elements</span>(url, <span class="at">xpath =</span> <span class="st">'//p'</span>)</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  description <span class="ot">=</span> <span class="fu">html_text2</span>(nds[[<span class="dv">2</span>]]) <span class="sc">%&gt;%</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="at">collapse =</span> <span class="st">' '</span>)</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  descriptionss <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">location =</span> places_east2[i,<span class="dv">1</span>], <span class="at">description =</span> description)</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>descriptions <span class="ot">=</span> <span class="fu">rbind</span>(descriptions, descriptionss)  </span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(descriptions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-12_c949c2435dc2980d4d02d87acc62ac7d">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>descriptions <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">location =</span> <span class="st">"Grand_Boulevard"</span>, <span class="at">description =</span> description)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>places_east2 <span class="ot">=</span> <span class="fu">gsub</span>(<span class="st">",_Chicago"</span>, <span class="st">""</span>, places_east) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">location =</span> value)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(places_east)) {</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">=</span> <span class="fu">read_html</span>(<span class="fu">paste</span>(<span class="st">"https://en.wikipedia.org/wiki/"</span>, places_east[i], <span class="at">sep =</span> <span class="st">""</span>))</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  nds <span class="ot">=</span> <span class="fu">html_elements</span>(url, <span class="at">xpath =</span> <span class="st">'//p'</span>)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  description <span class="ot">=</span> <span class="fu">html_text2</span>(nds)[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">%&gt;%</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="at">collapse =</span> <span class="st">' '</span>)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  descriptionss <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">location =</span> places_east2[i,<span class="dv">1</span>], <span class="at">description =</span> description)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>descriptions <span class="ot">=</span> <span class="fu">rbind</span>(descriptions, descriptionss)  </span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(descriptions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <colgroup>
-<col style="width: 2%">
-<col style="width: 97%">
+<col style="width: 0%">
+<col style="width: 99%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -452,42 +597,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Grand_Boulevard</td>
-<td style="text-align: left;">Grand Boulevard on the South Side of Chicago, Illinois, is one of the city’s Community Areas. The boulevard from which it takes its name is now Martin Luther King Jr.&nbsp;Drive. The area is bounded by 39th to the north, 51st Street to the south, Cottage Grove Avenue to the east, and the Chicago, Rock Island &amp; Pacific Railroad tracks to the west.</td>
+<td style="text-align: left;">Grand Boulevard on the South Side of Chicago, Illinois, is one of the city’s Community Areas. The boulevard from which it takes its name is now Martin Luther King Jr.&nbsp;Drive. The area is bounded by 39th to the north, 51st Street to the south, Cottage Grove Avenue to the east, and the Chicago, Rock Island &amp; Pacific Railroad tracks to the west. This is one of the two community areas that encompass the Bronzeville neighborhood, with the other being Douglas. Grand Boulevard also includes the Washington Park Court District neighborhood that was declared a Chicago Landmark on October 2, 1991.[2] The Harold Washington Cultural Center is one of its newer and more famous buildings. It arose on the site that from the 1920s through the 1970s housed a famous center of African American cultural life, the Regal Theater. Among the other notable properties in this neighborhood are the Daniel Hale Williams House, the Robert S. Abbott House, and the Oscar Stanton De Priest House. According to a 2018 US Census American Community Survey, there were 22,784 people and 10,383 households in Grand Boulevard.[1] The racial makeup of the area was 92.56% African American, 2.70% White, 0.70% Asian, and 2.26% from other races. Hispanic or Latino residents of any race were 1.77% of the population.[1] In the area, the population was spread out, with 27.3% under the age of 19, 19.4% from 20 to 34, 22.6% from 35 to 49, 16.4% from 50 to 64, and 14.3% who were 65 years of age or older. The median age was 36.9 years.[1] Grand Boulevard is part of City of Chicago School District #299 and City Colleges of Chicago District #508. The nearest City Colleges campus was Kennedy–King College in Englewood. A high school diploma had been earned by 85.5% of Grand Boulevard residents and a bachelor’s degree or greater had been earned by 31.31% of residents compared to citywide figures of 82.3% and 35.6% respectively.[1] The Chicago Transit Authority operates the Chicago “L” system in the Grand Boulevard community area. The Green Line provides rapid transit at four stations: Indiana, 43rd Street, 47th Street and 51st Street stations. The Grand Boulevard community area has supported the Democratic Party in the past two presidential elections by overwhelming margins. In the 2016 presidential election, Grand Boulevard cast 10,081 votes for Hillary Clinton and cast 171 votes for Donald Trump.[4] In the 2012 presidential election, Grand Boulevard cast 10,646 votes for Barack Obama and cast 81 votes for Mitt Romney.[5]</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Oakland</td>
-<td style="text-align: left;">The Oakland neighborhood originally formed out of a settlement named “Cleaverville”. In 1851, Charles Cleaver, an industrialist, purchased 22 acres near 38th Street and Lake Michigan. Real-estate developers subdivided the area and renamed it Oakland in 1871. Between 1872 and 1905, Cleaver constructed a soap factory and company town that included a commissary, church, town hall, and homes for the local factory workers. Camp Douglas, located nearby, attracted residents to the area. The adjoining stockyards and commercial district included popular saloons and attracted new citizens. [3]</td>
+<td style="text-align: left;">The Oakland neighborhood originally formed out of a settlement named “Cleaverville”. In 1851, Charles Cleaver, an industrialist, purchased 22 acres near 38th Street and Lake Michigan. Real-estate developers subdivided the area and renamed it Oakland in 1871. Between 1872 and 1905, Cleaver constructed a soap factory and company town that included a commissary, church, town hall, and homes for the local factory workers. Camp Douglas, located nearby, attracted residents to the area. The adjoining stockyards and commercial district included popular saloons and attracted new citizens. [3] Over a five-year span, Oakland became home to many of the city’s elite. City transportation was greatly improved in the area when the Illinois Central Railroad terminal was constructed at 39th Street and Cottage Grove Avenue in 1881. After the opening of the terminal, 39th and Cottage Grove Avenue became known as the “Five Crossings.” By the end of the century, the elite residents moved out and were replaced by working-class Irish residents. The Abraham Lincoln Center was founded by Jenkin Lloyd Jones.[4][5] The center served as a meeting place for people of various races, religions, and nationalities in 1905. Located at 700 E. Oakwood Boulevard,[6] the historic landmark designed by Frank Lloyd Wright now serves as the home of Northeastern Illinois University’s Center for Inner City Studies. During the first wave of The Great Migration between 1916 and 1920, Many African-Americans settled in Oakland.[7] By the 1930s, The area experienced the greatest diversity, with a mixture of African-Americans, Germans, Jews, English, Irish, Canadians, and Japanese. Due to this, racial tensions escalated as the African American population increased due to southern families moving to Chicago. As tensions flared, White residents resorted to violence and restrictive covenants to prevent African-Americans from moving into the area. These efforts were ultimately unsuccessful. By 1950, The African-American population was around 77% in Oakland while other ethnic groups moved from the neighborhood.[8] Oakland’s population decreased by two-thirds over a 15–year period, from 1962 to 1977 which resulted in the neighborhood becoming nearly 100% African–American.[citation needed] Due to the increase of Irish immigrants in the area, numerous single-family houses and apartments were constructed to accommodate them. Part of the Oakland area was annexed to Chicago in 1863; the rest in 1889. Between 1939 and 1941, the then–newly formed Chicago Housing Authority constructed the Ida B. Wells Homes housing project. Bordered by 37th-39th Streets and Cottage Grove Avenue and Martin Luther King Drive (then South Park Avenue), It was the site of Aldine Square town homes, which by 1935 were old and dilapidated.[9] The housing project increased the African–American population in the area and Oakland became a part of the Bronzeville neighborhood. Due to the rapid population growth in the area, The housing authority constructed more public housing. The sites were the Clarence Darrow Homes in 1961, located at the north end of Oakland and Lake Michigan High-Rises, which consisted of six-buildings bordered between 39th and 43rd Streets and Oakenwald and Lake Park Avenues during 1962 and 1963. The last public housing high-rises to be built in the area were the Madden Park Homes in 1970.[10] Oakland experienced a drastic declining economic base between 1961 and 1965 due to the poverty that fell upon the area. The housing projects in the area became crime-infested and controlled by street gangs. Street gangs such as the Disciples, Vice Lords and Black P. Stones were rampant and controlled the area by 1968. The notorious Black P. Stone Nation (later renamed El Rukn) had the largest presence in the area. The Oakland Theatre, which operated from 1907 until 1973, located at 3947 South Drexel Avenue,[11] in the heart of Oakland became the Black P. Stone street gangs’ headquarters in 1976. The headquarters, which was named “The Fort” and “Grand El Rukn Temple” was a constant target for police raids, until eventually being taken after a raid by the FBI in 1990. The building was demolished a few years later. By 1979, the city of Chicago had demolished dilapidated buildings, in return leaving vacant lots scattered throughout the area. The Oakland neighborhoods’ average income fell below the poverty level as middle-class residents moved from the area, it was one of the poorest neighborhoods in Chicago by 1990.[12] During the 1990s, under the leadership of Robert Lucas, the Kenwood-Oakland Community Organization (KOCO) rehabilitated several buildings in the community and successfully pressured the city to invest in Oakland. Beginning in 1994, the North Kenwood–Oakland Conservation Community Council, led by Shirley Newsome, cosponsored the Kenwood-Oakland Parade of Homes, which helped the further development of single-family houses, townhouses, and rehabbed buildings. The housing projects in the area were demolished over an eleven-year span, beginning with the Darrow Homes in 1996.[13] The four of the original six Lake Michigan High-Rises were vacated in late 1985[14][15][16] and sat vacant for 13 years until being imploded by the housing authority in December 1998.[17][18] The other two buildings were renovated and renamed Lake Parc Place in 1991. Sullivan Station, named after a railway station that existed in the area is a complex that is made up of mid-rise and high-rise buildings in the area; constructed on the former high-rise site.[19] On March 25, 1992, the Chicago City Council declared a portion of Oakland to be a Chicago Landmark.[20] The Oakland community area has supported the Democratic Party in the past two presidential elections by overwhelming margins. In the 2016 presidential election, Oakland cast 2,270 votes for Hillary Clinton and cast 40 votes for Donald Trump (96.68% to 1.70%).[22] In the 2012 presidential election, Oakland cast 2,111 votes for Barack Obama and cast 25 votes for Mitt Romney (98.64% to 1.17%).[23] In the United States House of Representatives the Oakland community area is located in Illinois’s 1st congressional district and Illinois’s 7th congressional district represented by Congressman Bobby Rush and Congressman Danny K. Davis respectively.[24] In the Illinois General Assembly, the Oakland community area is represented by Senator Robert Peters (D-13th) in the Illinois Senate and Representative Kam Buckner (D-26th) in the Illinois House of Representatives.[25]</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Kenwood</td>
-<td style="text-align: left;">Kenwood, one of Chicago’s 77 community areas, is on the shore of Lake Michigan on the South Side of the city. Its boundaries are 43rd Street, 51st Street, Cottage Grove Avenue, and the lake. Kenwood was originally part of Hyde Park Township, which was annexed to the city of Chicago in 1889. Kenwood was once one of Chicago’s most affluent neighborhoods, and it still has some of the largest single-family homes in the city. It contains two Chicago Landmark districts, Kenwood and North Kenwood. A large part of the southern half of the community area is in the Hyde Park-Kenwood Historic District. In recent years, Kenwood has received national attention as the home of former U.S. President Barack Obama.</td>
+<td style="text-align: left;">Kenwood, one of Chicago’s 77 community areas, is on the shore of Lake Michigan on the South Side of the city. Its boundaries are 43rd Street, 51st Street, Cottage Grove Avenue, and the lake. Kenwood was originally part of Hyde Park Township, which was annexed to the city of Chicago in 1889. Kenwood was once one of Chicago’s most affluent neighborhoods, and it still has some of the largest single-family homes in the city. It contains two Chicago Landmark districts, Kenwood and North Kenwood. A large part of the southern half of the community area is in the Hyde Park-Kenwood Historic District. In recent years, Kenwood has received national attention as the home of former U.S. President Barack Obama. Kenwood was settled in the 1850s by wealthy Chicagoans seeking respite from the increasing congestion of the city. The first of these residents was John A. Kennicott, who built his home near the Illinois Central Railroad at 48th Street. He named the home Kenwood after his ancestral land in Scotland, and when the Illinois Central Railroad built a small depot near 47th Street, they named the station Kenwood as well. Shortly afterwards, the name Kenwood began to be applied to the whole area.[2] The southeastern portion of Kenwood contains the Indian Village neighborhood, which features the Chicago Landmark Powhatan Apartments and the National Register of Historic Places Narragansett. The 1902 Blackstone Library is another well-known landmark in the neighborhood. It continues to be part of the Chicago Public Library system. The recently reopened Hyde Park Art Center, located on Cornell Avenue just north of 51st Street and East Hyde Park Boulevard, is Chicago’s oldest alternative exhibition space,[citation needed] with an on-site school and studio. The Hyde Park community area is to the south of Kenwood and the southern half of Kenwood (south of 47th Street) is sometimes referred to as Hyde Park-Kenwood.[3] In the 1890s, the Kenwood Astrophysical Observatory, established by astronomer George Ellery Hale, was located in Kenwood close to the new (at that time) University of Chicago. The Kenwood community area has supported the Democratic Party in the past two presidential elections by overwhelming margins. In the 2016 presidential election, Kenwood cast 7,639 votes for Hillary Clinton and cast 251 votes for Donald Trump (94.19% to 3.09%).[5] In the 2012 presidential election, Kenwood cast 8,712 votes for Barack Obama and cast 331 votes for Mitt Romney (95.63% to 3.63%).[6] The public schools in Kenwood are Kenwood Academy, Canter Middle School, King College Prep High School, Ariel Community Academy, William C. Reavis Math and Science Specialty School and Beulah Shoesmith Elementary School. Private Schools in Kenwood include the Ancona Montessori School, Cambridge School of Chicago, Akiba-Schechter Jewish Day School, and Hales Franciscan High School. The infamous murderers Nathan Leopold and Richard Loeb, and their victim Bobby Franks, were all residents of Kenwood. Lakefront condominiums in Kenwood as seen from Promontory Point. Blackstone Library The headquarters of Jesse Jackson’s Rainbow/PUSH The KAM Isaiah Israel synagogue The Regents Park apartment complex</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Hyde_Park</td>
-<td style="text-align: left;">Hyde Park is the 41st of the 77 community areas of Chicago. It is located on the South Side, near the shore of Lake Michigan 7 miles (11 km) south of the Loop.</td>
+<td style="text-align: left;">Hyde Park is the 41st of the 77 community areas of Chicago. It is located on the South Side, near the shore of Lake Michigan 7 miles (11 km) south of the Loop. Hyde Park’s official boundaries are 51st Street/Hyde Park Boulevard on the north, the Midway Plaisance (between 59th and 60th streets) on the south, Washington Park on the west, and Lake Michigan on the east.[2] According to another definition, a section to the north between 47th Street[3] and 51st Street/Hyde Park Boulevard is also included as part of Hyde Park, although this area is officially the southern part of the Kenwood community area. The area encompassing Hyde Park and the southern part of Kenwood is sometimes referred to as Hyde Park-Kenwood, which includes the neighborhoods of East Hyde Park and Indian Village.[4] Hyde Park is home to a number of institutions of higher education; among these are the University of Chicago, Catholic Theological Union, Lutheran School of Theology at Chicago, and McCormick Theological Seminary. The community area is also home to the Museum of Science and Industry, and two of Chicago’s four historic sites listed in the original 1966 National Register of Historic Places (Chicago Pile-1, the world’s first artificial nuclear reactor, and Robie House).[5] In the early 21st century, Hyde Park received national attention for its association with U.S. President Barack Obama, who, before running for president, was a Senior Lecturer for twelve years at the University of Chicago Law School.[6][7] The Barack Obama Presidential Center which is currently under construction in Jackson Park is located nearby.[8] In 1853, Paul Cornell, a real estate speculator and cousin of Cornell University founder Ezra Cornell, purchased 300 acres (1.2 km2) of land[9] between 51st and 55th streets along the shore of Lake Michigan,[10] with the idea of attracting other Chicago businessmen and their families to the area.[9] The land was located seven miles south of Downtown Chicago in a rural area that enjoyed weather tempered by the lake – cooler in the summer and warmer in the winter. It was conveniently located near the Illinois Central Railroad, which had been constructed two years earlier. Cornell successfully negotiated land in exchange for a railroad station at 53rd Street. Hyde Park quickly became a suburban retreat for affluent Chicagoans who wanted to escape the noise and congestion of the rapidly growing city. In 1857, the Hyde Park House, an upscale hotel, was built on the shore of Lake Michigan near the 53rd Street railroad station.[9] For two decades, the Hyde Park House served as a focal point of Hyde Park social life. During this period, it was visited or lived in by many prominent guests, including Mary Todd Lincoln, who lived there with her children for two and a half months in the summer of 1865 (shortly after her husband was assassinated).[11] The Hyde Park House burned down in an 1879 fire. The Sisson Hotel was built on the site in 1918 and was eventually converted into a condominium building (the Hampton House). In 1861, Hyde Park was incorporated into an independent township (called Hyde Park Township). Its boundaries were Pershing Road (39th Street) on the north, 138th Street on the south, State Street on the west, and Lake Michigan and the Indiana state line on the east.[12] The territory of the township encompassed most of what is now the South Side of Chicago. Hyde Park Township remained independent of Chicago until it was annexed to the city in 1889.[13] After annexation, the definition of Hyde Park as a Chicago neighborhood was restricted to the historic core of the former township, centered on Cornell’s initial development between 51st and 55th streets near the lakefront. The Hyde Park Herald, the neighborhood’s community newspaper, was established in 1882 and continues to be published weekly. In 1891 (two years after Hyde Park was annexed to the city of Chicago),[9] the University of Chicago was established in Hyde Park through the philanthropy of John D. Rockefeller and the leadership of William Rainey Harper.[10] In 1893, Hyde Park hosted the World’s Columbian Exposition (a world’s fair marking the 400th anniversary of Christopher Columbus’ arrival in the New World). The World’s Columbian Exposition brought fame to the neighborhood, which gave rise to an inflow of new residents and spurred new development that gradually started transforming Hyde Park into a more urban area. However, since most of the structures built for the fair were temporary, it left few direct traces in the neighborhood. The only major structure from the fair that is still standing today is Charles Atwood’s Palace of Fine Arts, which has since been converted into the Museum of Science and Industry. In the early decades of the twentieth century, many upscale hotels were built in Hyde Park (mostly along the lakefront). Hyde Park became a resort area in Chicago.[10] Most of these hotels closed during the Great Depression, and were eventually converted into apartment and condominium buildings (most of which are still standing today). Historical images of Hyde Park can be found in Explore Chicago Collections, a digital repository made available by Chicago Collections archives, libraries and other cultural institutions in the city.[14] Until the middle of the twentieth century, Hyde Park remained an almost exclusively white neighborhood (despite its proximity to Chicago’s Black Belt). Hyde Parkers relied on racially restrictive covenants to keep African Americans out of the neighborhood. At the time, the use of such covenants was supported by the University of Chicago.[15] After the Supreme Court banned racially restrictive covenants in 1948, African Americans began moving into Hyde Park, and the neighborhood gradually became multiracial. In 1955, civil rights activist Leon Despres was elected alderman of Hyde Park and held the position for twenty years.[16] Despres argued passionately for racial integration and fair housing on the floor of the Chicago City Council, and became known as the “liberal conscience of Chicago” for often casting the sole dissenting vote against the policies of Chicago’s then-mayor Richard J. Daley.[17] During the 1950s, Hyde Park experienced economic decline as a result of the white flight that followed the rapid inflow of African Americans into the neighborhood.[10] In the 1950s and 1960s, the University of Chicago, in its effort to counteract these trends, sponsored one of the largest urban renewal plans in the nation.[18][19] The plan involved the demolition and redevelopment of entire blocks of supposedly decayed buildings with the goal of creating an “interracial community of high standards.”[20] After the plan was carried out, Hyde Park’s average income soared by seventy percent, but its African American population fell by forty percent, since the substandard housing primarily occupied by low-income African Americans had been purchased, torn down, and replaced, with the residents not being able to afford to remain in the newly rehabilitated areas.[citation needed] The ultimate result of the renewal plan was that Hyde Park did not experience the economic depression that occurred in the surrounding areas and became a racially integrated middle-class neighborhood.[citation needed] The central campus of the University of Chicago—including Pritzker School of Medicine, the University of Chicago Hospital, the historic Main Quadrangles, and the Booth School of Business—is bounded by Washington Park on the west, 55th Street on the north, University Ave. on the east, and 61st Street on the south, placing most of the University within Hyde Park’s southwestern quadrant (with the remainder, south of the Midway, being in Woodlawn). The University also owns a number of additional properties throughout Hyde Park, with many concentrated along a narrow corridor along 59th Street between the central campus and the Metra tracks—including, for example, the University of Chicago Laboratory Schools and International House. Due to the University’s proximity, the blocks just east of the central campus are dominated by (privately owned) student and faculty residences. The part of Hyde Park located east of the Metra tracks is locally called East Hyde Park. This area, the part of Hyde Park nearest to Lake Michigan, has a large number of high-rise condominiums, many of them facing the lakefront. Some of these condominiums are remnants of older hotels, like The Mayfair or Regents Park. In this respect, East Hyde Park differs markedly from the rest of Hyde Park, where the vast majority of residences are either three-story apartment buildings or single-family homes (with only a small number of high-rise condominiums). Although the neighborhood bounded by 47th Street on the north, 51st Street (Hyde Park Boulevard) on the south, Cottage Grove Avenue on the west, and Lake Michigan on the east is officially the southern half of the Kenwood community area, it is often considered part of Hyde Park due to the two areas’ shared culture and history; “Hyde Park-Kenwood” is thus sometimes applied to this collective area (as in, e.g., the “Hyde Park-Kenwood Historic District”). Some differences are nonetheless apparent: unlike Hyde Park, which is dominated by three- and four-story apartment buildings and modest family homes, southern Kenwood boasts a great many luxurious mansions, built mainly at the end of the nineteenth and the beginning of the twentieth centuries for wealthy Chicagoans. A number of prominent Chicagoans currently reside or own homes in this area, including former U.S. president Barack Obama and Nation of Islam leader Louis Farrakhan. Boxer Muhammad Ali and former Nation of Islam leader Elijah Muhammad also once resided in south Kenwood. Hyde Park is a very racially diverse neighborhood. Its population is 47.6% White, 26.8% African American, 12.1% Asian American, 8.5% Hispanic, and 5.0% of other races or of more than one race.[1] There are some differences between the racial demographics of the part of Hyde Park south of 55th Street and the part of Hyde Park north of 55th Street. Residents south of 55th Street are predominantly White and Asian American, with a smaller percentage being African American or Hispanic. North of 55th Street, African Americans make up approximately half of the population and there’s a larger percentage of Hispanics.[22] In 2000, Hyde Park was 45.8% White, 38.1% African American, 0.1% American Indian, 11.3% Asian, 0.1% Pacific Islander, 4.1% Hispanic, and 4.6% from other races or two or more races.[23] Hyde Park’s location in the center of the predominantly African American South Side as well as the neighborhood’s large population of affluent and upper-middle class black residents have made it an important cultural and political hub of Chicago’s black community. Many of Chicago’s prominent African American politicians live or have lived in Hyde Park, including former Chicago Mayor Harold Washington;[24] former U.S. Senator Carol Moseley Braun, the first ever Black female U.S. senator;[25] and former U.S. President Barack Obama.[15] The following Hyde Park community area properties have been added to the National Register of Historic Places: Chicago Beach Apartments, Arthur H. Compton House, East Park Towers, Chicago Pile-1, Flamingo-on-the-Lake Apartments, Mayfair Apartments, Isadore H. Heller House, Charles Hitchcock Hall, Hotel Del Prado, Hotel Windermere East, Frank R. Lillie House, Robert A. Millikan House, Poinsettia Apartments, Promontory Apartments, Jackson Shore Apartments, Frederick C. Robie House, George Herbert Jones Laboratory, St.&nbsp;Thomas Church and Convent, Shoreland Hotel, German submarine U-505, and University Apartments. In addition, the NRHP Hyde Park-Kenwood Historic District and Jackson Park Historic Landscape District and Midway Plaisance are located, at least in part, within the Hyde Park community area. Promontory Point is an artificial peninsula that extends into Lake Michigan at 55th Street, providing views of the Downtown Chicago skyline to the north. Promontory Point is a common location for picnicking, sunbathing, and swimming. It made news as the location of the wedding reception between George Lucas and Mellody Hobson in June 2013. [26] The southeastern corner of Hyde Park contains the northern end of Jackson Park. Jackson Park consists of lagoons surrounding an island in the middle (called the Wooded Island), on which a small Japanese garden is located. It is home to a large population of beavers and over two dozen species of birds. The Midway Plaisance, a wide boulevard that runs from Stony Island Avenue to Cottage Grove Avenue between 59th and 60th streets, connects Jackson Park to Washington Park (located to the west of Hyde Park). Jackson Park has been selected by the Obama Foundation as the site of the future Obama Presidential Center.[27] 53rd, 55th, and 57th streets host most of the businesses in Hyde Park. 53rd Street is Hyde Park’s oldest shopping district, lined with many small businesses and restaurants offering various dining options such as Hyde Park Produce and The Sit Down Cafe &amp; Sushi Bar. Harper Court, a small-business-oriented shopping center, extends north of 53rd Street along Harper Avenue. A farmers’ market is held there in the summer. The segment of 55th Street between the Metra line and the lake offers a series of ethnic restaurants serving Thai, Japanese, and Korean cuisine. To the west of the Metra line between 54th and 55th streets lies the Hyde Park Shopping Center. The shopping center is anchored by the Trader Joe’s grocery store, and also includes a Walgreens, Ace Hardware, Office Depot, Potbelly Sandwich Works, Ascione Bistro, the Bonjour Bakery and Cafe, and upscale French restaurant La Petite Folie. 57th Street is noted for its independent bookstores, including Powell’s Books Chicago (the original location of a Powell’s Books)[28] and the general-readership branch of the Seminary Co-op bookstore, known as “57th Street Books.” 57th Street also offers the Medici Restaurant and Bakery, TrueNorth Cafe, and the Salonica Restaurant, along with small grocery stores, hair stylists, and dry cleaners. On the first weekend in June, the venerable 57th Street Art Fair takes up 57th Street between Kimbark and Kenwood avenues. The Hyde Park community area has supported the Democratic Party in the past two presidential elections by overwhelming margins. In the 2016 presidential election, Hyde Park cast 10,479 votes for Hillary Clinton and 442 votes for Donald Trump (91.9% to 3.9%).[29] In the 2012 presidential election, Hyde Park cast 9,991 votes for Barack Obama and cast 651 votes for Mitt Romney (91.4% to 6.0%).[30] Hyde Park is connected to the rest of the city by CTA buses and the Metra Electric Line. CTA buses provide express service to the downtown, and they also allow transfers to Red Line and Green Line trains to the Loop. The Metra Electric Line, which uses the tracks of the former Illinois Central Railroad, has several stops in Hyde Park and provides service to Millennium Station in the downtown. CTA bus services: Additional CTA bus services, paid for by the University of Chicago: The University of Chicago as seen from the Midway Plaisance, a wide boulevard connecting Jackson Park and Washington Park. The Robie House, a National Historic Landmark designed by architect Frank Lloyd Wright in 1908. The Rockefeller Chapel, located on the University of Chicago campus and named after University of Chicago founder John D. Rockefeller. The University of Chicago Laboratory Schools, founded by the prominent educational reformer John Dewey in 1896. The Museum of Science and Industry, housed in the former Palace of Fine Arts from the 1893 World’s Columbian Exposition, as seen from the northern edge of Jackson Park. The Hampton House, a condominium located on the property that once housed the Hyde Park House (Hyde Park’s first hotel). In the 1980s, the Hampton House was home to Chicago Mayor Harold Washington. Shops and restaurants on 53rd Street. A monument marking the location of the first kiss between Barack Obama and Michelle Obama, located on the corner of 53rd Street and Dorchester Avenue. Osaka Garden, a Japanese garden in Jackson Park. The banks of Promontory Point. Downtown Chicago and lakefront condominiums in Hyde Park as seen from the northern side of Promontory Point.</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <p>Let’s clean the data using <code>tidytext</code>. If you have trouble with this section, see the example shown in <a href="https://www.tidytextmining.com/tidytext.html" class="uri">https://www.tidytextmining.com/tidytext.html</a></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-13_4213938af5be0fc55ee2ddb8486c5126">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Create tokens using <code>unnest_tokens</code>. Make sure the data is in one-token-per-row format. Remove any stop words within the data. What are the most common words used overall?</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># construct tokens</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>tidyt <span class="ot">=</span> descriptions <span class="sc">%&gt;%</span> <span class="fu">unnest_tokens</span>(word, description)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># remove any stop words</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"stop_words"</span>)</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>tidyt <span class="ot">=</span> tidyt <span class="sc">%&gt;%</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Joining with `by = join_by(word)`</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>tidymost <span class="ot">=</span> tidyt <span class="sc">%&gt;%</span> <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(tidymost))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-14_54a2a71f662280e195df8749f7cc72bb">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># construct tokens</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>tidyt <span class="ot">=</span> descriptions <span class="sc">%&gt;%</span> <span class="fu">unnest_tokens</span>(word, description)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># remove any stop words</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"stop_words"</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>tidyt <span class="ot">=</span> tidyt <span class="sc">%&gt;%</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>tidymost <span class="ot">=</span> tidyt <span class="sc">%&gt;%</span> <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(tidymost))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -498,37 +641,90 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">kenwood</td>
-<td style="text-align: right;">7</td>
+<td style="text-align: left;">park</td>
+<td style="text-align: right;">88</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">hyde</td>
+<td style="text-align: right;">75</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">chicago</td>
-<td style="text-align: right;">5</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">south</td>
-<td style="text-align: right;">5</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">community</td>
-<td style="text-align: right;">4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">lake</td>
-<td style="text-align: right;">4</td>
+<td style="text-align: right;">54</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">street</td>
-<td style="text-align: right;">4</td>
+<td style="text-align: right;">43</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">kenwood</td>
+<td style="text-align: right;">38</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">community</td>
+<td style="text-align: right;">26</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <p>Plot the most common words within each location. What are some of the similarities between the locations? What are some of the differences?</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>tidyt <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(location) <span class="sc">%&gt;%</span> </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word) <span class="ot">-&gt;</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-15_72ca522a9c88335b9c4daed9f0758400">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>Grand_Boulevard <span class="ot">=</span> tidyt <span class="sc">%&gt;%</span> </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(location <span class="sc">==</span> <span class="st">"Grand_Boulevard"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"1"</span> <span class="sc">&amp;</span> word <span class="sc">!=</span> <span class="st">"2"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() </span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>Oakland <span class="ot">=</span> tidyt <span class="sc">%&gt;%</span> </span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(location <span class="sc">==</span> <span class="st">"Oakland"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"1"</span> <span class="sc">&amp;</span> word <span class="sc">!=</span> <span class="st">"2"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>Kenwood <span class="ot">=</span> tidyt <span class="sc">%&gt;%</span> </span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(location <span class="sc">==</span> <span class="st">"Kenwood"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"1"</span> <span class="sc">&amp;</span> word <span class="sc">!=</span> <span class="st">"2"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>Hyde_Park <span class="ot">=</span> tidyt <span class="sc">%&gt;%</span> </span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(location <span class="sc">==</span> <span class="st">"Hyde_Park"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"1"</span> <span class="sc">&amp;</span> word <span class="sc">!=</span> <span class="st">"2"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">=</span> <span class="fu">ggplot</span>(Grand_Boulevard, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_infreq</span>(word, n), <span class="at">y =</span> n)) <span class="sc">+</span> </span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"pink"</span>) <span class="sc">+</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Grand_Boulevard"</span>) <span class="sc">+</span></span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"word"</span>)</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">=</span> <span class="fu">ggplot</span>(Oakland, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_infreq</span>(word, n), <span class="at">y =</span> n)) <span class="sc">+</span> </span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"yellow"</span>) <span class="sc">+</span></span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Oakland"</span>) <span class="sc">+</span></span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"word"</span>)</span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">=</span> <span class="fu">ggplot</span>(Kenwood, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_infreq</span>(word, n), <span class="at">y =</span> n)) <span class="sc">+</span> </span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"lightgreen"</span>) <span class="sc">+</span></span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Kenwood"</span>) <span class="sc">+</span></span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"word"</span>)</span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">=</span> <span class="fu">ggplot</span>(Hyde_Park, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_infreq</span>(word, n), <span class="at">y =</span> n)) <span class="sc">+</span> </span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span></span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Hyde_Park"</span>) <span class="sc">+</span></span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"word"</span>)</span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p1, p2, p3, p4, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="assignment3_Peter_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 </section>
 
