@@ -96,7 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>You may work in pairs or individually for this assignment. Make sure you join a group in Canvas if you are working in pairs. Turn in this assignment as an HTML or PDF file to ELMS. Make sure to include the R Markdown or Quarto file that was used to generate it. Include the GitHub link for the repository containing these files.</p>
-<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-1_90ffa920d39010267ba693b8e9684875">
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-1_475ab720c7f288da8244aa13ec105eb1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -110,7 +110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago" class="uri">https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago</a></p>
 <p>The ultimate goal is to gather the table “Historical population” and convert it to a <code>data.frame</code>.</p>
 <p>As a first step, read in the html page as an R object. Extract the tables from this object (using the <code>rvest</code> package) and save the result as a new object. Follow the instructions if there is an error. Use <code>str()</code> on this new object -- it should be a list. Try to find the position of the “Historical population” in this list since we need it in the next step.</p>
-<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-2_6ece57cb21a957d6e91c1d11e99d08d7">
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-2_3a260220c19d41faefca751be2ca9399">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># determine the paths and url</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">paths_allowed</span>(<span class="st">"https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -155,13 +155,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Extract the “Historical population” table from the list and save it as another object. You can use subsetting via <code>[[…]]</code> to extract pieces from a list. Print the result.</p>
-<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-3_77787cabbf7be83562fb953ca7c66cdb">
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-3_166e28183b5a6192f51940931ad5214e">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract "Historical population" table from the list</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>hp <span class="ot">=</span> nds[[<span class="dv">2</span>]]</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>hpset <span class="ot">=</span> <span class="fu">html_table</span>(hp)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(hpset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(hpset, <span class="at">caption =</span> <span class="st">"Historical population"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
+<caption>Historical population</caption>
 <colgroup>
 <col style="width: 3%">
 <col style="width: 3%">
@@ -248,12 +249,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>You will see that the table needs some additional formatting. We only want rows and columns with actual values (I called the table object <code>pop</code>).</p>
-<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-4_7408f6233ad2d22e270c490486fd6c45">
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-4_01ea5225252d8fbcf59092bdbd5cbbb0">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove unwanted rows and columns</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">=</span> hpset[<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, <span class="sc">-</span><span class="dv">3</span>]</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pop, <span class="at">caption =</span> <span class="st">"Historical population"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
+<caption>Historical population</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Census</th>
@@ -315,12 +317,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="expanding-to-more-pages" class="level2">
 <h2 class="anchored" data-anchor-id="expanding-to-more-pages">Expanding to More Pages</h2>
 <p>That’s it for this page. However, we may want to repeat this process for other community areas. The Wikipedia page https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago has a section on “Places adjacent to Grand Boulevard, Chicago” at the bottom. Can you find the corresponding table in the list of tables that you created earlier? Extract this table as a new object.</p>
-<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-5_0a869f238bd198338eb21c841f9a7530">
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-5_2644d102b97957fe4acef0756b8f9906">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the table</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>adj <span class="ot">=</span> <span class="fu">html_table</span>(nds[[<span class="dv">3</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then, grab the community areas east of Grand Boulevard and save them as a character vector. Print the result.</p>
-<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-6_63c5dd8950625dee176517741df218a8">
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-6_e6e3f5c9f991df3789cc7816430e5b5a">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>adjeast <span class="ot">=</span> <span class="fu">as.vector</span>(adj[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>), <span class="dv">3</span>])</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(adjeast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -329,7 +331,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>We want to use this list to create a loop that extracts the population tables from the Wikipedia pages of these places. To make this work and build valid urls, we need to replace empty spaces in the character vector with underscores. This can be done with <code>gsub()</code>, or by hand. The resulting vector should look like this: “Oakland,_Chicago” “Kenwood,_Chicago” “Hyde_Park,_Chicago”</p>
-<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-7_f2234bcb8273e5d7e9ed71fa36c2306e">
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-7_76f2af04e5a1b1e668d60d9701f2c9cf">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>places_east <span class="ot">=</span> <span class="fu">gsub</span>(<span class="st">' '</span>, <span class="st">'_'</span>, adjeast[[<span class="dv">1</span>]])</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>places_east</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -337,11 +339,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>To prepare the loop, we also want to copy our <code>pop</code> table and rename it as <code>pops</code>. In the loop, we append this table by adding columns from the other community areas.</p>
-<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-8_19cbd95e5ad8669a9b982dade19967d2">
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-8_e1fe4256d2bb41926b5ce92957a43069">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pops <span class="ot">=</span> pop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Build a small loop to test whether you can build valid urls using the vector of places and pasting each element of it after <code>https://en.wikipedia.org/wiki/</code> in a for loop. Calling <code>url</code> shows the last url of this loop, which should be <code>https://en.wikipedia.org/wiki/Hyde_Park,_Chicago</code>.</p>
-<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-9_2f8db7bdbc2cbdb96e143bddcc0a1109">
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-9_af413d8fbea4706bdc826ef78a17b454">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(places_east)) {</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"https://en.wikipedia.org/wiki/"</span>, places_east[i], <span class="at">sep =</span> <span class="st">""</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>}</span>
@@ -351,7 +353,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Finally, extend the loop and add the code that is needed to grab the population tables from each page. Add columns to the original table <code>pops</code> using <code>cbind()</code>.</p>
-<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-10_f61c92a5119a75bd3453076e1c30554d">
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-10_e0db2a42f323552972950ad58c16ad3a">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(places_east)) {</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">=</span> <span class="fu">read_html</span>(<span class="fu">paste</span>(<span class="st">"https://en.wikipedia.org/wiki/"</span>, places_east[i], <span class="at">sep =</span> <span class="st">""</span>))</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  nds <span class="ot">=</span> <span class="fu">html_elements</span>(url, <span class="at">xpath =</span> <span class="st">'//table'</span>)</span>
@@ -360,9 +362,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  pops <span class="ot">=</span> hpset[<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, <span class="sc">-</span><span class="dv">3</span>] <span class="sc">%&gt;%</span> <span class="fu">cbind</span>(pops, .)</span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pops)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pops, <span class="at">caption =</span> <span class="st">"Historical population"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
+<caption>Historical population</caption>
 <colgroup>
 <col style="width: 8%">
 <col style="width: 9%">
@@ -529,7 +532,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="scraping-and-analyzing-text-data">Scraping and Analyzing Text Data</h2>
 <p>Suppose we wanted to take the actual text from the Wikipedia pages instead of just the information in the table. Our goal in this section is to extract the text from the body of the pages, then do some basic text cleaning and analysis.</p>
 <p>First, scrape just the text without any of the information in the margins or headers. For example, for “Grand Boulevard”, the text should start with, “<strong>Grand Boulevard</strong> on the <a href="https://en.wikipedia.org/wiki/South_Side,_Chicago" title="South Side, Chicago">South Side</a> of <a href="https://en.wikipedia.org/wiki/Chicago" title="Chicago">Chicago</a>, <a href="https://en.wikipedia.org/wiki/Illinois" title="Illinois">Illinois</a>, is one of the …”. Make sure all of the text is in one block by using something like the code below (I called my object <code>description</code>).</p>
-<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-11_ac56a8db4db6dfb44a340af12d6226d8">
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-11_5115121c88b7cc1692ee1bbc70247789">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">=</span> <span class="fu">read_html</span>(<span class="st">"https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago"</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>nds <span class="ot">=</span> <span class="fu">html_nodes</span>(url, <span class="at">xpath =</span> <span class="st">"//p"</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>description <span class="ot">=</span> <span class="fu">html_text2</span>(nds)[<span class="sc">-</span><span class="dv">1</span>]</span>
@@ -544,9 +547,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>description <span class="ot">=</span> description <span class="sc">%&gt;%</span></span>
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="at">collapse =</span> <span class="st">" "</span>)</span>
 <span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">description =</span> description))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">description =</span> description), <span class="at">caption =</span> <span class="st">"description"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
+<caption>description</caption>
 <colgroup>
 <col style="width: 100%">
 </colgroup>
@@ -564,7 +568,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Using a similar loop as in the last section, grab the descriptions of the various communities areas. Make a tibble with two columns: the name of the location and the text describing the location.</p>
-<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-12_c949c2435dc2980d4d02d87acc62ac7d">
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-12_9acb5fde04e94cb1f449e5d617e73bca">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>descriptions <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">location =</span> <span class="st">"Grand_Boulevard"</span>, <span class="at">description =</span> description)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>places_east2 <span class="ot">=</span> <span class="fu">gsub</span>(<span class="st">",_Chicago"</span>, <span class="st">""</span>, places_east) <span class="sc">%&gt;%</span> </span>
@@ -581,9 +585,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>descriptions <span class="ot">=</span> <span class="fu">rbind</span>(descriptions, descriptionss)  </span>
 <span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(descriptions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(descriptions, <span class="at">caption =</span> <span class="st">"descriptions"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
+<caption>descriptions</caption>
 <colgroup>
 <col style="width: 0%">
 <col style="width: 99%">
@@ -616,11 +621,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Let’s clean the data using <code>tidytext</code>. If you have trouble with this section, see the example shown in <a href="https://www.tidytextmining.com/tidytext.html" class="uri">https://www.tidytextmining.com/tidytext.html</a></p>
-<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-13_4213938af5be0fc55ee2ddb8486c5126">
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-13_084b6c0ec4db229826d633add6e47704">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Create tokens using <code>unnest_tokens</code>. Make sure the data is in one-token-per-row format. Remove any stop words within the data. What are the most common words used overall?</p>
-<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-14_54a2a71f662280e195df8749f7cc72bb">
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-14_4ee0f9ebe99c07d7158227bc949696bc">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># construct tokens</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>tidyt <span class="ot">=</span> descriptions <span class="sc">%&gt;%</span> <span class="fu">unnest_tokens</span>(word, description)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -630,9 +635,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words)</span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>tidymost <span class="ot">=</span> tidyt <span class="sc">%&gt;%</span> <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(tidymost))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(tidymost), <span class="at">caption =</span> <span class="st">"Most Common Words"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
+<caption>Most Common Words</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">word</th>
@@ -668,8 +674,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
+<p>From the table above, we can see that “park” is the most common word, followed by “hyde”, “chicago”, “street” and “kenwood”.</p>
 <p>Plot the most common words within each location. What are some of the similarities between the locations? What are some of the differences?</p>
-<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-15_72ca522a9c88335b9c4daed9f0758400">
+<div class="cell" data-hash="assignment3_Peter_cache/html/unnamed-chunk-15_b2482e3b4f133f1065052c1845d00a73">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -721,11 +728,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
 <span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"word"</span>)</span>
 <span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p1, p2, p3, p4, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">=</span> <span class="fu">ggarrange</span>(p1, p2, p3, p4, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a><span class="fu">annotate_figure</span>(plot, <span class="at">top =</span> <span class="fu">text_grob</span>(<span class="st">"Common Words by Location"</span>, </span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a>              <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">14</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="assignment3_Peter_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+<p><img src="assignment3_Peter_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
+<p>From the plot above, we can see that the three most common words of Grand_Boulevard is “boulevard”, “grand” and “chicago”. For Oakland, they are “oakland”, “housing” and “african”; For Kenwood, they are “kenwood”, “school” and “park”; For Hyde_Park, they are “park”, “hyde” and “chicago”. We can see that they are mainly the name of the location or the nearby big city Chicago.</p>
 </section>
 
 </main>

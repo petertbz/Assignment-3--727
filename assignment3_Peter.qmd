@@ -8,8 +8,7 @@ editor: visual
 You may work in pairs or individually for this assignment. Make sure you join a group in Canvas if you are working in pairs. Turn in this assignment as an HTML or PDF file to ELMS. Make sure to include the R Markdown or Quarto file that was used to generate it. Include the GitHub link for the repository containing these files.
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,cache=TRUE, 
-                      autodep=TRUE, tidy.opts = FALSE,
+knitr::opts_chunk$set(echo = TRUE, cache=TRUE,
                       message=FALSE, warning=FALSE)
 ```
 
@@ -48,7 +47,7 @@ Extract the "Historical population" table from the list and save it as another o
 # extract "Historical population" table from the list
 hp = nds[[2]]
 hpset = html_table(hp)
-kable(hpset)
+kable(hpset, caption = "Historical population")
 ```
 
 You will see that the table needs some additional formatting. We only want rows and columns with actual values (I called the table object `pop`).
@@ -56,7 +55,7 @@ You will see that the table needs some additional formatting. We only want rows 
 ```{r}
 # remove unwanted rows and columns
 pop = hpset[2:10, -3]
-kable(pop)
+kable(pop, caption = "Historical population")
 ```
 
 ## Expanding to More Pages
@@ -108,7 +107,7 @@ for(i in 1:length(places_east)) {
   pops = hpset[2:10, -3] %>% cbind(pops, .)
 }
 
-kable(pops)
+kable(pops, caption = "Historical population")
 ```
 
 ## Scraping and Analyzing Text Data
@@ -133,7 +132,8 @@ description = html_text2(nds)[-1]
 
 description = description %>% paste(collapse = ' ')
 
-kable(data.frame(description = description))
+kable(data.frame(description = description), 
+      caption = "description")
 ```
 
 Using a similar loop as in the last section, grab the descriptions of the various communities areas. Make a tibble with two columns: the name of the location and the text describing the location.
@@ -155,7 +155,7 @@ for(i in 1:length(places_east)) {
 descriptions = rbind(descriptions, descriptionss)  
 }
 
-kable(descriptions)
+kable(descriptions, caption = "descriptions")
 ```
 
 Let's clean the data using `tidytext`. If you have trouble with this section, see the example shown in <https://www.tidytextmining.com/tidytext.html>
@@ -176,12 +176,14 @@ tidyt = tidyt %>%
   anti_join(stop_words)
 
 tidymost = tidyt %>% count(word, sort = TRUE)
-kable(head(tidymost))
+kable(head(tidymost), caption = "Most Common Words")
 ```
+
+From the table above, we can see that "park" is the most common word, followed by "hyde", "chicago", "street" and "kenwood".
 
 Plot the most common words within each location. What are some of the similarities between the locations? What are some of the differences?
 
-```{r}
+```{r fig.width=10, fig.width=10}
 library(forcats)
 library(ggpubr)
 
@@ -233,5 +235,8 @@ p4 = ggplot(Hyde_Park, aes(x = fct_infreq(word, n), y = n)) +
   theme(plot.title = element_text(hjust = 0.5)) +
   xlab("word")
 
-ggarrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
+plot = ggarrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
+annotate_figure(plot, top = text_grob("Common Words by Location", 
+              face = "bold", size = 14))
 ```
+From the plot above, we can see that the three most common words of Grand_Boulevard is "boulevard", "grand" and "chicago". For Oakland, they are "oakland", "housing" and "african"; For Kenwood, they are "kenwood", "school" and "park"; For Hyde_Park, they are "park", "hyde" and "chicago". We can see that they are mainly the name of the location or the nearby big city Chicago.
