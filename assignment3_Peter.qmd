@@ -1,7 +1,9 @@
 ---
 title: "Assignment 3"
 subtitle: "Due at 11:59pm on October 24."
-format: html
+format: 
+  html:
+    embed-resources: true
 editor: visual
 ---
 
@@ -239,4 +241,5 @@ plot = ggarrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
 annotate_figure(plot, top = text_grob("Common Words by Location", 
               face = "bold", size = 14))
 ```
+
 From the plot above, we can see that the three most common words of Grand_Boulevard is "boulevard", "grand" and "chicago". For Oakland, they are "oakland", "housing" and "african"; For Kenwood, they are "kenwood", "school" and "park"; For Hyde_Park, they are "park", "hyde" and "chicago". We can see that they are mainly the name of the location or the nearby big city Chicago.
