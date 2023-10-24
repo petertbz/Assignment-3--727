@@ -185,7 +185,7 @@ From the table above, we can see that "park" is the most common word, followed b
 
 Plot the most common words within each location. What are some of the similarities between the locations? What are some of the differences?
 
-```{r fig.width=10, fig.width=10}
+```{r}
 library(forcats)
 library(ggpubr)
 
@@ -193,53 +193,61 @@ Grand_Boulevard = tidyt %>%
   filter(location == "Grand_Boulevard") %>% 
   count(word, sort = TRUE) %>% 
   filter(word != "1" & word != "2") %>% 
-  head() 
+  head(10) 
 
 Oakland = tidyt %>% 
   filter(location == "Oakland") %>% 
   count(word, sort = TRUE) %>% 
   filter(word != "1" & word != "2") %>% 
-  head()
+  head(10)
 
 Kenwood = tidyt %>% 
   filter(location == "Kenwood") %>% 
   count(word, sort = TRUE) %>% 
   filter(word != "1" & word != "2") %>% 
-  head()
+  head(10)
 
 Hyde_Park = tidyt %>% 
   filter(location == "Hyde_Park") %>% 
   count(word, sort = TRUE) %>% 
   filter(word != "1" & word != "2") %>% 
-  head()
+  head(10)
 
 p1 = ggplot(Grand_Boulevard, aes(x = fct_infreq(word, n), y = n)) + 
   geom_bar(stat = "identity", fill = "pink") +
   ggtitle("Grand_Boulevard") +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  xlab("word")
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text.x = element_text(angle = 45, hjust = 1,size = 12)) +
+  labs(y = "Frequency",
+       x = "Words")
 
 p2 = ggplot(Oakland, aes(x = fct_infreq(word, n), y = n)) + 
   geom_bar(stat = "identity", fill = "yellow") +
   ggtitle("Oakland") +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  xlab("word")
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text.x = element_text(angle = 45, hjust = 1,size = 12)) +
+  labs(y = "Frequency",
+       x = "Words")
 
 p3 = ggplot(Kenwood, aes(x = fct_infreq(word, n), y = n)) + 
   geom_bar(stat = "identity", fill = "lightgreen") +
   ggtitle("Kenwood") +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  xlab("word")
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text.x = element_text(angle = 45, hjust = 1,size = 12)) +
+  labs(y = "Frequency",
+       x = "Words")
 
 p4 = ggplot(Hyde_Park, aes(x = fct_infreq(word, n), y = n)) + 
   geom_bar(stat = "identity", fill = "lightblue") +
   ggtitle("Hyde_Park") +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  xlab("word")
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text.x = element_text(angle = 45, hjust = 1,size = 12)) +
+  labs(y = "Frequency",
+       x = "Words")
 
 plot = ggarrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
 annotate_figure(plot, top = text_grob("Common Words by Location", 
               face = "bold", size = 14))
 ```
 
-From the plot above, we can see that the three most common words of Grand_Boulevard is "boulevard", "grand" and "chicago". For Oakland, they are "oakland", "housing" and "african"; For Kenwood, they are "kenwood", "school" and "park"; For Hyde_Park, they are "park", "hyde" and "chicago". We can see that they are mainly the name of the location or the nearby big city Chicago.
+From the plot above, we can see that the three most common words of Grand_Boulevard is "boulevard", "grand" and "chicago". For Oakland, they are "oakland", "housing" and "african"; For Kenwood, they are "kenwood", "school" and "park"; For Hyde_Park, they are "park", "hyde" and "chicago". We can see that they are mainly the name of the location or the nearby big city Chicago. All communities except for Oakland have "street" as one of the ten most common words. Kenwood and Hyde Park mention a large number of words "school" and "university," respectively, while the other two do not mention educational institutes as much. This difference is likely due to the former two communities have more schools or more prestige ones that people think worth mentioning while introducing the places to the public. 
