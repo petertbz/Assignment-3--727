@@ -1,0 +1,247 @@
+---
+title: "Assignment 3"
+subtitle: "Due at 11:59pm on October 24."
+author: Leng Seong Che; Bozhou (Peter) Tan
+format: 
+  html:
+    embed-resources: true
+editor: visual
+---
+
+You may work in pairs or individually for this assignment. Make sure you join a group in Canvas if you are working in pairs. Turn in this assignment as an HTML or PDF file to ELMS. Make sure to include the R Markdown or Quarto file that was used to generate it. Include the GitHub link for the repository containing these files.
+
+Github: <https://github.com/petertbz/Assignment-3--727.git>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache=TRUE,
+                      message=FALSE, warning=FALSE)
+```
+
+```{r}
+library(xml2)
+library(rvest)
+library(tidyverse)
+library(robotstxt)
+library(dplyr)
+library(knitr)
+```
+
+## Web Scraping
+
+In this assignment, your task is to scrape some information from Wikipedia. We start with the following page about Grand Boulevard, a Chicago Community Area.
+
+<https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago>
+
+The ultimate goal is to gather the table "Historical population" and convert it to a `data.frame`.
+
+As a first step, read in the html page as an R object. Extract the tables from this object (using the `rvest` package) and save the result as a new object. Follow the instructions if there is an error. Use `str()` on this new object \-- it should be a list. Try to find the position of the "Historical population" in this list since we need it in the next step.
+
+```{r}
+# determine the paths and url
+paths_allowed("https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago")
+url = read_html("https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago")
+
+# extract tables from the website
+nds = html_elements(url, xpath = '//table')
+str(nds)
+```
+
+Extract the "Historical population" table from the list and save it as another object. You can use subsetting via `[[…]]` to extract pieces from a list. Print the result.
+
+```{r}
+# extract "Historical population" table from the list
+hp = nds[[2]]
+hpset = html_table(hp)
+kable(hpset, caption = "Historical population")
+```
+
+You will see that the table needs some additional formatting. We only want rows and columns with actual values (I called the table object `pop`).
+
+```{r}
+# remove unwanted rows and columns
+pop = hpset[2:10, -3]
+kable(pop, caption = "Historical population")
+```
+
+## Expanding to More Pages
+
+That's it for this page. However, we may want to repeat this process for other community areas. The Wikipedia page https://en.wikipedia.org/wiki/Grand_Boulevard,\_Chicago has a section on "Places adjacent to Grand Boulevard, Chicago" at the bottom. Can you find the corresponding table in the list of tables that you created earlier? Extract this table as a new object.
+
+```{r}
+# extract the table
+adj = html_table(nds[[3]])
+```
+
+Then, grab the community areas east of Grand Boulevard and save them as a character vector. Print the result.
+
+```{r}
+adjeast = as.vector(adj[c(2,4,6), 3])
+print(adjeast)
+```
+
+We want to use this list to create a loop that extracts the population tables from the Wikipedia pages of these places. To make this work and build valid urls, we need to replace empty spaces in the character vector with underscores. This can be done with `gsub()`, or by hand. The resulting vector should look like this: "Oakland,\_Chicago" "Kenwood,\_Chicago" "Hyde_Park,\_Chicago"
+
+```{r}
+places_east = gsub(' ', '_', adjeast[[1]])
+places_east
+```
+
+To prepare the loop, we also want to copy our `pop` table and rename it as `pops`. In the loop, we append this table by adding columns from the other community areas.
+
+```{r}
+pops = pop
+```
+
+Build a small loop to test whether you can build valid urls using the vector of places and pasting each element of it after `https://en.wikipedia.org/wiki/` in a for loop. Calling `url` shows the last url of this loop, which should be `https://en.wikipedia.org/wiki/Hyde_Park,_Chicago`.
+
+```{r}
+for(i in 1:length(places_east)) {
+  url <- paste("https://en.wikipedia.org/wiki/", places_east[i], sep = "")
+}
+url
+```
+
+Finally, extend the loop and add the code that is needed to grab the population tables from each page. Add columns to the original table `pops` using `cbind()`.
+
+```{r}
+for(i in 1:length(places_east)) {
+  url = read_html(paste("https://en.wikipedia.org/wiki/", places_east[i], sep = ""))
+  nds = html_elements(url, xpath = '//table')
+  hp = nds[[2]]
+  hpset = html_table(hp)
+  pops = hpset[2:10, -3] %>% cbind(pops, .)
+}
+
+kable(pops, caption = "Historical population")
+```
+
+## Scraping and Analyzing Text Data
+
+Suppose we wanted to take the actual text from the Wikipedia pages instead of just the information in the table. Our goal in this section is to extract the text from the body of the pages, then do some basic text cleaning and analysis.
+
+First, scrape just the text without any of the information in the margins or headers. For example, for "Grand Boulevard", the text should start with, "**Grand Boulevard** on the [South Side](https://en.wikipedia.org/wiki/South_Side,_Chicago "South Side, Chicago") of [Chicago](https://en.wikipedia.org/wiki/Chicago "Chicago"), [Illinois](https://en.wikipedia.org/wiki/Illinois "Illinois"), is one of the ...". Make sure all of the text is in one block by using something like the code below (I called my object `description`).
+
+```{r tidy=TRUE}
+url = read_html("https://en.wikipedia.org/wiki/Grand_Boulevard,_Chicago")
+nds = html_nodes(url, xpath = '//p')
+description = html_text2(nds)[-1]
+
+description = description %>% paste(collapse = ' ')
+
+kable(data.frame(description = description), 
+      caption = "description")
+```
+
+Using a similar loop as in the last section, grab the descriptions of the various communities areas. Make a tibble with two columns: the name of the location and the text describing the location.
+
+```{r}
+descriptions = data.frame(location = "Grand_Boulevard", description = description)
+
+places_east2 = gsub(",_Chicago", "", places_east) %>% 
+  as_tibble() %>% 
+  rename(location = value)
+
+for(i in 1:length(places_east)) {
+  url = read_html(paste("https://en.wikipedia.org/wiki/", places_east[i], sep = ""))
+  nds = html_elements(url, xpath = '//p')
+  description = html_text2(nds)[-1] %>%
+    paste(collapse = ' ')
+  descriptionss = data.frame(location = places_east2[i,1], description = description)
+
+descriptions = rbind(descriptions, descriptionss)  
+}
+
+kable(descriptions, caption = "descriptions")
+```
+
+Let's clean the data using `tidytext`. If you have trouble with this section, see the example shown in <https://www.tidytextmining.com/tidytext.html>
+
+```{r}
+library(tidytext)
+```
+
+Create tokens using `unnest_tokens`. Make sure the data is in one-token-per-row format. Remove any stop words within the data. What are the most common words used overall?
+
+```{r}
+# construct tokens
+tidyt = descriptions %>% unnest_tokens(word, description)
+
+# remove any stop words
+data("stop_words")
+tidyt = tidyt %>%
+  anti_join(stop_words)
+
+tidymost = tidyt %>% count(word, sort = TRUE)
+kable(head(tidymost), caption = "Most Common Words")
+```
+
+From the table above, we can see that "park" is the most common word, followed by "hyde", "chicago", "street" and "kenwood".
+
+Plot the most common words within each location. What are some of the similarities between the locations? What are some of the differences?
+
+```{r}
+library(forcats)
+library(ggpubr)
+
+Grand_Boulevard = tidyt %>% 
+  filter(location == "Grand_Boulevard") %>% 
+  count(word, sort = TRUE) %>% 
+  filter(word != "1" & word != "2") %>% 
+  head(10) 
+
+Oakland = tidyt %>% 
+  filter(location == "Oakland") %>% 
+  count(word, sort = TRUE) %>% 
+  filter(word != "1" & word != "2") %>% 
+  head(10)
+
+Kenwood = tidyt %>% 
+  filter(location == "Kenwood") %>% 
+  count(word, sort = TRUE) %>% 
+  filter(word != "1" & word != "2") %>% 
+  head(10)
+
+Hyde_Park = tidyt %>% 
+  filter(location == "Hyde_Park") %>% 
+  count(word, sort = TRUE) %>% 
+  filter(word != "1" & word != "2") %>% 
+  head(10)
+
+p1 = ggplot(Grand_Boulevard, aes(x = fct_infreq(word, n), y = n)) + 
+  geom_bar(stat = "identity", fill = "pink") +
+  ggtitle("Grand_Boulevard") +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text.x = element_text(angle = 45, hjust = 1,size = 12)) +
+  labs(y = "Frequency",
+       x = "Words")
+
+p2 = ggplot(Oakland, aes(x = fct_infreq(word, n), y = n)) + 
+  geom_bar(stat = "identity", fill = "yellow") +
+  ggtitle("Oakland") +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text.x = element_text(angle = 45, hjust = 1,size = 12)) +
+  labs(y = "Frequency",
+       x = "Words")
+
+p3 = ggplot(Kenwood, aes(x = fct_infreq(word, n), y = n)) + 
+  geom_bar(stat = "identity", fill = "lightgreen") +
+  ggtitle("Kenwood") +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text.x = element_text(angle = 45, hjust = 1,size = 12)) +
+  labs(y = "Frequency",
+       x = "Words")
+
+p4 = ggplot(Hyde_Park, aes(x = fct_infreq(word, n), y = n)) + 
+  geom_bar(stat = "identity", fill = "lightblue") +
+  ggtitle("Hyde_Park") +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text.x = element_text(angle = 45, hjust = 1,size = 12)) +
+  labs(y = "Frequency",
+       x = "Words")
+
+plot = ggarrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
+annotate_figure(plot, top = text_grob("Common Words by Location", 
+              face = "bold", size = 14))
+```
+
+From the plot above, we can see that the three most common words of Grand_Boulevard is "boulevard", "grand" and "chicago". For Oakland, they are "oakland", "housing" and "african"; For Kenwood, they are "kenwood", "school" and "park"; For Hyde_Park, they are "park", "hyde" and "chicago". We can see that they are mainly the name of the location or the nearby big city Chicago. All communities except for Oakland have "street" as one of the ten most common words. Kenwood and Hyde Park mention a large number of words "school" and "university," respectively, while the other two do not mention educational institutes as much. This difference is likely due to the former two communities have more schools or more prestige ones that people think worth mentioning while introducing the places to the public.
