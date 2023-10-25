@@ -1,10 +1,10 @@
 ---
 title: "Assignment 3"
 subtitle: "Due at 11:59pm on October 24."
-author: Leng Seong Che; Bozhou (Peter) Tan
+author: Leng Seong Che; Bozhou(Peter) Tan
 format: 
   html:
-    embed-resources: true
+    embed-resources: TRUE
 editor: visual
 ---
 
